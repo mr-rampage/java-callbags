@@ -1,6 +1,7 @@
 package ca.wbac.callbag.source;
 
-import ca.wbac.callbag.sink.IPuller;
+import ca.wbac.callbag.IPullable;
+import ca.wbac.callbag.IPuller;
 
 public class Range implements IPullable<Integer> {
     private final Integer lowerBound;
