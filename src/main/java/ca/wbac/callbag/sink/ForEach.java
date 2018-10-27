@@ -5,22 +5,22 @@ import ca.wbac.callbag.IPullable;
 
 import java.util.function.Consumer;
 
-public class ForEach implements IPuller<Integer> {
-    private final Consumer<Integer> onData;
-    private IPullable<Integer> talkback;
+public class ForEach<T> implements IPuller<T> {
+    private final Consumer<T> onData;
+    private IPullable<T> talkback;
 
-    public ForEach(Consumer<Integer> onData) {
+    public ForEach(Consumer<T> onData) {
         this.onData = onData;
     }
 
     @Override
-    public void greet(IPullable<Integer> source) {
+    public void greet(IPullable<T> source) {
         talkback = source;
         talkback.pull();
     }
 
     @Override
-    public void push(Integer response) {
+    public void push(T response) {
         onData.accept(response);
         talkback.pull();
     }
