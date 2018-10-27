@@ -10,8 +10,12 @@ public class ForEach<T> implements IPuller<T> {
     private final Consumer<T> consumer;
     private IPullable<T> talkback;
 
-    public ForEach(Consumer<T> consumer) {
+    private ForEach(Consumer<T> consumer) {
         this.consumer = consumer;
+    }
+
+    public static <T> ForEach<T> forEach(Consumer<T> consumer) {
+        return new ForEach<>(consumer);
     }
 
     @Override

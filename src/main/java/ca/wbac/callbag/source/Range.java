@@ -10,10 +10,15 @@ public class Range implements IPullable<Integer> {
     private boolean started;
     private IPuller<Integer> talkback;
 
-    public Range(final Integer lowerBound, final Integer upperBound) {
+    public static Range range(final Integer lowerBound, final Integer upperBound) {
+        return new Range(lowerBound, upperBound);
+    }
+
+    private Range(final Integer lowerBound, final Integer upperBound) {
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
     }
+
     @Override
     public void greet(ICallbag<Integer> sink) {
         talkback = (IPuller<Integer>)sink;
