@@ -4,17 +4,13 @@ import ca.wbac.callbag.ICallbag;
 import ca.wbac.callbag.IPullable;
 import ca.wbac.callbag.IPuller;
 
-public class Range implements IPullable<Integer> {
+public final class Range implements IPullable<Integer> {
     private final Integer lowerBound;
     private final Integer upperBound;
     private boolean started;
     private IPuller<Integer> talkback;
 
-    public static Range range(final Integer lowerBound, final Integer upperBound) {
-        return new Range(lowerBound, upperBound);
-    }
-
-    private Range(final Integer lowerBound, final Integer upperBound) {
+    Range(final Integer lowerBound, final Integer upperBound) {
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
     }

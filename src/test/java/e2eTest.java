@@ -2,8 +2,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.stream.IntStream;
 
-import static ca.wbac.callbag.sink.ForEach.forEach;
-import static ca.wbac.callbag.source.Range.range;
+import static ca.wbac.callbag.sink.Pullers.forEach;
+import static ca.wbac.callbag.source.Pullables.range;
 
 class e2eTest {
     @Test

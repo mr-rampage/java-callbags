@@ -6,16 +6,12 @@ import ca.wbac.callbag.IPullable;
 
 import java.util.function.Consumer;
 
-public class ForEach<T> implements IPuller<T> {
+public final class ForEach<T> implements IPuller<T> {
     private final Consumer<T> consumer;
     private IPullable<T> talkback;
 
-    private ForEach(Consumer<T> consumer) {
+    ForEach(Consumer<T> consumer) {
         this.consumer = consumer;
-    }
-
-    public static <T> ForEach<T> forEach(Consumer<T> consumer) {
-        return new ForEach<>(consumer);
     }
 
     @Override
