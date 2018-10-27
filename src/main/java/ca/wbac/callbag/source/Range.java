@@ -1,5 +1,6 @@
 package ca.wbac.callbag.source;
 
+import ca.wbac.callbag.ICallbag;
 import ca.wbac.callbag.IPullable;
 import ca.wbac.callbag.IPuller;
 
@@ -14,8 +15,8 @@ public class Range implements IPullable<Integer> {
         this.upperBound = upperBound;
     }
     @Override
-    public void greet(IPuller<Integer> sink) {
-        talkback = sink;
+    public void greet(ICallbag<Integer> sink) {
+        talkback = (IPuller<Integer>)sink;
         talkback.greet(this);
     }
 
