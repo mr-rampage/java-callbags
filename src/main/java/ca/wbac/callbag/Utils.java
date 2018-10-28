@@ -1,11 +1,12 @@
 package ca.wbac.callbag;
 
+import java.util.Arrays;
+import java.util.function.Function;
+
 public class Utils {
-    public static Callbag pipe(Callbag source, Pipeable ...pipeables) {
-        Callbag pipeline = source;
-        for (Pipeable pipeable : pipeables) {
-            pipeline = pipeable.apply(pipeline);
-        }
-        return pipeline;
+    public static void pipe(Callbag source, Pipeable... pipeables) {
+        Arrays.stream((Function[]) pipeables)
+                .reduce(Function.identity(), Function::andThen)
+                .apply(source);
     }
 }
