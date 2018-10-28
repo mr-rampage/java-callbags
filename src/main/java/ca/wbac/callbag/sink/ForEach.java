@@ -4,22 +4,22 @@ import ca.wbac.callbag.Callbag;
 
 import java.util.function.Consumer;
 
-public final class ForEach<T> extends Callbag<T> {
-    private final Consumer<T> consumer;
-    private Callbag<T> inputSource;
+final class ForEach extends Callbag {
+    private final Consumer consumer;
+    private Callbag inputSource;
 
-    ForEach(Consumer<T> consumer) {
+    ForEach(Consumer consumer) {
         this.consumer = consumer;
     }
 
     @Override
-    public void greet(Callbag<T> source) {
+    public void greet(Callbag source) {
         inputSource = source;
         inputSource.data();
     }
 
     @Override
-    public void data(T response) {
+    public void data(Object response) {
         consumer.accept(response);
         inputSource.data();
     }

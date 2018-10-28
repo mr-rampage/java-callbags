@@ -2,7 +2,7 @@ package ca.wbac.callbag.source;
 
 import ca.wbac.callbag.Callbag;
 
-public final class Range extends Callbag<Integer> {
+final class Range extends Callbag {
     private final Integer lowerBound;
     private final Integer upperBound;
 
@@ -12,8 +12,8 @@ public final class Range extends Callbag<Integer> {
     }
 
     @Override
-    public void greet(Callbag<Integer> sink) {
-        Callbag<Integer> talkback = new Callbag<>() {
+    public void greet(Callbag sink) {
+        Callbag talkback = new Callbag() {
             private boolean started = false;
 
             @Override

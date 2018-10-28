@@ -1,8 +1,8 @@
 package ca.wbac.callbag;
 
-public abstract class Callbag<T> {
-    public void greet(Callbag<T> callbag) {}
+public abstract class Callbag {
+    public void greet(Callbag callbag) {}
     public void data() {}
-    public void data(T response) {}
+    public void data(Object response) {}
     public void terminate() {}
 }
