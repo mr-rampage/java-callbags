@@ -1,33 +1,26 @@
 package ca.wbac.callbag.sink;
 
-import ca.wbac.callbag.ICallbag;
-import ca.wbac.callbag.IPuller;
-import ca.wbac.callbag.IPullable;
+import ca.wbac.callbag.Callbag;
 
 import java.util.function.Consumer;
 
-public final class ForEach<T> implements IPuller<T> {
+public final class ForEach<T> extends Callbag<T> {
     private final Consumer<T> consumer;
-    private IPullable<T> talkback;
+    private Callbag<T> inputSource;
 
     ForEach(Consumer<T> consumer) {
         this.consumer = consumer;
     }
 
     @Override
-    public void greet(ICallbag<T> source) {
-        talkback = (IPullable<T>)source;
-        talkback.pull();
+    public void greet(Callbag<T> source) {
+        inputSource = source;
+        inputSource.data();
     }
 
     @Override
-    public void push(T response) {
+    public void data(T response) {
         consumer.accept(response);
-        talkback.pull();
-    }
-
-    @Override
-    public void goodbye() {
-
+        inputSource.data();
     }
 }

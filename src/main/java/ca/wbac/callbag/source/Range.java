@@ -1,14 +1,10 @@
 package ca.wbac.callbag.source;
 
-import ca.wbac.callbag.ICallbag;
-import ca.wbac.callbag.IPullable;
-import ca.wbac.callbag.IPuller;
+import ca.wbac.callbag.Callbag;
 
-public final class Range implements IPullable<Integer> {
+public final class Range extends Callbag<Integer> {
     private final Integer lowerBound;
     private final Integer upperBound;
-    private boolean started;
-    private IPuller<Integer> talkback;
 
     Range(final Integer lowerBound, final Integer upperBound) {
         this.lowerBound = lowerBound;
@@ -16,25 +12,22 @@ public final class Range implements IPullable<Integer> {
     }
 
     @Override
-    public void greet(ICallbag<Integer> sink) {
-        talkback = (IPuller<Integer>)sink;
-        talkback.greet(this);
-    }
+    public void greet(Callbag<Integer> sink) {
+        Callbag<Integer> talkback = new Callbag<>() {
+            private boolean started = false;
 
-    @Override
-    public void pull() {
-        if (!started) {
-            started = true;
-            int i = lowerBound;
-            while (i < upperBound) {
-                talkback.push(i++);
+            @Override
+            public void data() {
+                if (!started) {
+                    started = true;
+                    int i = lowerBound;
+                    while (i < upperBound) {
+                        sink.data(i++);
+                    }
+                    sink.terminate();
+                }
             }
-            talkback.goodbye();
-        }
-    }
-
-    @Override
-    public void goodbye() {
-
+        };
+        sink.greet(talkback);
     }
 }
