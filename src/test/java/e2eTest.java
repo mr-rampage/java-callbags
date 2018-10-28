@@ -1,4 +1,3 @@
-import ca.wbac.callbag.Utils;
 import org.junit.jupiter.api.Test;
 
 import static ca.wbac.callbag.Utils.pipe;
