@@ -11,7 +11,7 @@ class e2eTest {
     void test1() {
         pipe(
                 range(0, 10),
-                map(x -> 2 * (int) x),
+                map((Integer x) -> 2 * x),
                 forEach(System.out::println)
         );
     }

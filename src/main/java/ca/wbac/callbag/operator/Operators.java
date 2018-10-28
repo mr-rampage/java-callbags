@@ -6,7 +6,7 @@ import ca.wbac.callbag.Pipeable;
 import java.util.function.Function;
 
 public final class Operators {
-    public static Pipeable map(Function transformer) {
-        return inputSource -> new Map(transformer, inputSource);
+    public static <I, O> Pipeable map(Function<I, O> transformer) {
+        return inputSource -> new Map<>(transformer, inputSource);
     }
 }
