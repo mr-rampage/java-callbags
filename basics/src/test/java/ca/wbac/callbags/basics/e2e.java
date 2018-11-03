@@ -1,5 +1,6 @@
 package ca.wbac.callbags.basics;
 
+import ca.wbac.callbags.basics.operator.Filter;
 import ca.wbac.callbags.basics.operator.Map;
 import ca.wbac.callbags.basics.sink.ForEach;
 import ca.wbac.callbags.basics.source.Range;
@@ -21,11 +22,12 @@ class e2e {
 
         pipe(
                 new Range(0, 10),
-                new Map<>(x -> x * 2),
+                new Map<>((Integer x) -> x * 2).andThen(
+                        new Filter<>(x -> x < 10)),
                 new ForEach<>(actual::add)
         );
 
-        List<Integer> expected = List.of(0, 2, 4, 6, 8, 10, 12, 14, 16, 18);
+        List<Integer> expected = List.of(0, 2, 4, 6, 8);
         assertThat(actual, is(expected));
     }
 }
