@@ -1,21 +1,21 @@
 package ca.wbac.callbags.basics.source;
 
-import ca.wbac.callbags.core.SinkTalkback;
+import ca.wbac.callbags.core.SourceFactory;
 import ca.wbac.callbags.core.SourceInitiator;
 import ca.wbac.callbags.core.SourceTalkback;
 
-final class Range implements SourceInitiator<Integer> {
+public final class Range implements SourceFactory<Integer> {
     private final Integer lowerBound;
     private final Integer upperBound;
 
-    Range(Integer lowerBound, Integer upperBound) {
+    public Range(final Integer lowerBound, final Integer upperBound) {
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
     }
 
     @Override
-    public void start(SinkTalkback<Integer> sinkTalkback) {
-        SourceTalkback sourceTalkback = new SourceTalkback() {
+    public SourceInitiator<Integer> get() {
+        return sinkTalkback -> sinkTalkback.start(new SourceTalkback() {
             private boolean started = false;
 
             @Override
@@ -29,7 +29,6 @@ final class Range implements SourceInitiator<Integer> {
                     sinkTalkback.terminate();
                 }
             }
-        };
-        sinkTalkback.start(sourceTalkback);
+        });
     }
 }
