@@ -9,12 +9,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
+import org.mockito.InjectMocks;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.function.Consumer;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class ForEachTest {
@@ -22,39 +24,36 @@ class ForEachTest {
     private SourceInitiator<Integer> inputSource;
     @Spy
     private SourceTalkback sourceTalkback;
-    private Consumer<Integer> consumer = spy(new Consumer<>() {
-        @Override
-        public void accept(Integer integer) {
-
-        }
-    });
+    @Spy
+    private Consumer<Integer> consumer;
     @Captor
     private ArgumentCaptor<SinkTalkback<Integer>> talkbackCaptor;
+    @InjectMocks
+    private ForEach<Integer> fixture;
 
-    private SinkTalkback<Integer> fixture;
+    private SinkTalkback<Integer> talkback;
 
     @BeforeEach
     void captureTalkback() {
-        ForEach<Integer> forEach = new ForEach<>(consumer);
-        forEach.accept(inputSource);
+        fixture.accept(inputSource);
         verify(inputSource).start(talkbackCaptor.capture());
-        fixture = talkbackCaptor.getValue();
+        talkback = talkbackCaptor.getValue();
     }
 
     @Test
     @DisplayName("should request data on handshake")
     void testHandshake() {
-        fixture.start(sourceTalkback);
+        talkback.start(sourceTalkback);
         verify(sourceTalkback).request();
     }
 
     @Test
     @DisplayName("should consumer data and request data")
     void testDelivery() {
-        fixture.start(sourceTalkback);
+        talkback.start(sourceTalkback);
         reset(sourceTalkback);
 
-        fixture.deliver(5);
+        talkback.deliver(5);
 
         verify(consumer).accept(5);
         verify(sourceTalkback).request();
