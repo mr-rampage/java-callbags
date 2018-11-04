@@ -28,7 +28,7 @@ public final class ForEach<T> implements SinkTerminator<T> {
             @Override
             public void deliver(T data) {
                 consumer.accept(data);
-                this.sourceTalkback.request();
+                sourceTalkback.request();
             }
         });
     }

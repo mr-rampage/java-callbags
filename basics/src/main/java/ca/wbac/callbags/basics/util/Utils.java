@@ -8,7 +8,9 @@ import java.util.function.Function;
 
 public class Utils {
 
-    public static <T, K> void pipe(SourceFactory<T> source, Function<SourceInitiator<T>, SourceInitiator<K>> pipeline, SinkTerminator<K> sink) {
-        sink.accept(pipeline.apply(source.get()));
+    public static <T, K> void pipe(SourceFactory<T> source,
+                                   Function<SourceInitiator<T>, SourceInitiator<K>> operations,
+                                   SinkTerminator<K> sink) {
+        sink.accept(operations.apply(source.get()));
     }
 }
