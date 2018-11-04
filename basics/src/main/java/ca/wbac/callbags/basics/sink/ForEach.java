@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 public final class ForEach<T> implements SinkTerminator<T> {
     private final Consumer<T> consumer;
 
-    public ForEach(Consumer<T> consumer) {
+    ForEach(Consumer<T> consumer) {
         this.consumer = consumer;
     }
 

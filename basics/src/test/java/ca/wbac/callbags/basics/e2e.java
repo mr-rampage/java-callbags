@@ -1,15 +1,16 @@
 package ca.wbac.callbags.basics;
 
-import ca.wbac.callbags.basics.operator.Filter;
-import ca.wbac.callbags.basics.operator.Map;
-import ca.wbac.callbags.basics.sink.ForEach;
-import ca.wbac.callbags.basics.source.Range;
+import ca.wbac.callbags.basics.operator.Operator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static ca.wbac.callbags.basics.operator.Operator.filter;
+import static ca.wbac.callbags.basics.operator.Operator.map;
+import static ca.wbac.callbags.basics.sink.Sink.forEach;
+import static ca.wbac.callbags.basics.source.Source.range;
 import static ca.wbac.callbags.basics.util.Utils.pipe;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -21,13 +22,14 @@ class e2e {
         List<Integer> actual = new ArrayList<>();
 
         pipe(
-                new Range(0, 10),
-                new Map<>((Integer x) -> x * 2).andThen(
-                        new Filter<>(x -> x < 10)),
-                new ForEach<>(actual::add)
+                range(0, 10),
+                Operator.<Integer>skip(2)
+                        .andThen(map(x -> x * 2))
+                        .andThen(filter(x -> x < 10)),
+                forEach(actual::add)
         );
 
-        List<Integer> expected = List.of(0, 2, 4, 6, 8);
+        List<Integer> expected = List.of(4, 6, 8);
         assertThat(actual, is(expected));
     }
 }

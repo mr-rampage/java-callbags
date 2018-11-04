@@ -7,11 +7,11 @@ import ca.wbac.callbags.core.SourceTalkback;
 
 import java.util.function.Predicate;
 
-public class Filter<T> implements Operator<T, T> {
+public final class Filter<T> implements Operator<T, T> {
 
     private final Predicate<T> filter;
 
-    public Filter(Predicate<T> filter) {
+    Filter(Predicate<T> filter) {
         this.filter = filter;
     }
 

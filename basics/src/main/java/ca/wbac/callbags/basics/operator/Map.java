@@ -10,7 +10,7 @@ import java.util.function.Function;
 public final class Map<I, O> implements Operator<I, O> {
     private Function<I, O> transform;
 
-    public Map(Function<I, O> transform) {
+    Map(Function<I, O> transform) {
         this.transform = transform;
     }
 

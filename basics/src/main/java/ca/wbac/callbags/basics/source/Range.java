@@ -8,7 +8,7 @@ public final class Range implements SourceFactory<Integer> {
     private final Integer lowerBound;
     private final Integer upperBound;
 
-    public Range(final Integer lowerBound, final Integer upperBound) {
+    Range(final Integer lowerBound, final Integer upperBound) {
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
     }
