@@ -1,14 +1,10 @@
 package ca.wbac.callbags.basics.operator;
 
-import ca.wbac.callbags.core.SinkTalkback;
-import ca.wbac.callbags.core.SourceInitiator;
 import ca.wbac.callbags.core.SourceTalkback;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -16,15 +12,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class SkipTest {
-    @Spy
-    private SourceInitiator<Integer> source;
-    @Spy
-    private SinkTalkback<Integer> sink;
+class SkipTest extends AbstractOperatorTest {
     @Spy
     private SourceTalkback talkback;
-    @Captor
-    private ArgumentCaptor<SinkTalkback<Integer>> sinkCaptor;
 
     private Skip<Integer> fixture = new Skip<>(3);
 
