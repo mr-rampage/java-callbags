@@ -8,6 +8,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
@@ -15,20 +17,15 @@ import java.util.Arrays;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class RangeTest {
-    private SinkTalkback<Integer> sink = spy(new SinkTalkback<>() {
-        @Override
-        public void start(SourceTalkback sourceTalkback) {
-        }
-
-        @Override
-        public void deliver(Integer data) {
-        }
-    });
-    private ArgumentCaptor<SourceTalkback> talkbackCaptor = ArgumentCaptor.forClass(SourceTalkback.class);
+    @Spy
+    private SinkTalkback<Integer> sink;
+    @Captor
+    private ArgumentCaptor<SourceTalkback> talkbackCaptor;
     private SourceInitiator<Integer> fixture = new Range(0, 10).get();
 
     @BeforeEach

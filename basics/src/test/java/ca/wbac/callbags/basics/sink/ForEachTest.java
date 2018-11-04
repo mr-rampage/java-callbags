@@ -1,9 +1,15 @@
 package ca.wbac.callbags.basics.sink;
 
+import ca.wbac.callbags.core.SinkTalkback;
+import ca.wbac.callbags.core.SourceInitiator;
 import ca.wbac.callbags.core.SourceTalkback;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.function.Consumer;
@@ -12,34 +18,45 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ForEachTest {
-    @Test
-    @DisplayName("should start request upon handshake")
-    void testHandshake() {
-        SourceTalkback spiedSource = spy(SourceTalkback.class);
-        doNothing().when(spiedSource).request();
-        new ForEach<Integer>(x -> {
-        })
-                .accept(sinkTalkback -> sinkTalkback.start(spiedSource));
-        verify(spiedSource).request();
+    @Spy
+    private SourceInitiator<Integer> inputSource;
+    @Spy
+    private SourceTalkback sourceTalkback;
+    private Consumer<Integer> consumer = spy(new Consumer<>() {
+        @Override
+        public void accept(Integer integer) {
+
+        }
+    });
+    @Captor
+    private ArgumentCaptor<SinkTalkback<Integer>> talkbackCaptor;
+
+    private SinkTalkback<Integer> fixture;
+
+    @BeforeEach
+    void captureTalkback() {
+        ForEach<Integer> forEach = new ForEach<>(consumer);
+        forEach.accept(inputSource);
+        verify(inputSource).start(talkbackCaptor.capture());
+        fixture = talkbackCaptor.getValue();
     }
 
     @Test
-    @DisplayName("should start request upon handshake")
-    void testDelivery() {
-        Consumer<Integer> consumer = spy(i -> {
-        });
-        new ForEach<>(consumer)
-                .accept(sinkTalkback -> sinkTalkback.start(new SourceTalkback() {
-                    boolean started = false;
+    @DisplayName("should request data on handshake")
+    void testHandshake() {
+        fixture.start(sourceTalkback);
+        verify(sourceTalkback).request();
+    }
 
-                    @Override
-                    public void request() {
-                        if (!started) {
-                            started = true;
-                            sinkTalkback.deliver(5);
-                        }
-                    }
-                }));
+    @Test
+    @DisplayName("should consumer data and request data")
+    void testDelivery() {
+        fixture.start(sourceTalkback);
+        reset(sourceTalkback);
+
+        fixture.deliver(5);
+
         verify(consumer).accept(5);
+        verify(sourceTalkback).request();
     }
 }
