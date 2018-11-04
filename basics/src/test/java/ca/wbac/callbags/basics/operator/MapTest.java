@@ -1,8 +1,6 @@
 package ca.wbac.callbags.basics.operator;
 
-import ca.wbac.callbags.core.SinkTalkback;
-import ca.wbac.callbags.core.SourceTalkback;
-import org.junit.jupiter.api.BeforeEach;
+import ca.wbac.callbags.core.Operator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,30 +10,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.function.Function;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class MapTest extends AbstractOperatorTest {
-    @Spy
-    private SinkTalkback<String> sink;
+final class MapTest extends AbstractOperatorTest<Integer, String> {
     @Spy
     private Function<Integer, String> transformer;
     @InjectMocks
     private Map<Integer, String> fixture;
-
-    @BeforeEach
-    void whenStarted() {
-        fixture.apply(source).start(sink);
-        verify(source).start(sinkCaptor.capture());
-    }
-
-    @Test
-    @DisplayName("should handshake")
-    void testHandshake() {
-        SourceTalkback talkback = spy(SourceTalkback.class);
-        sinkCaptor.getValue().start(talkback);
-        verify(sink).start(talkback);
-    }
 
     @Test
     @DisplayName("should transform data for delivery")
@@ -45,4 +28,8 @@ class MapTest extends AbstractOperatorTest {
         verify(sink).deliver("Hello World!");
     }
 
+    @Override
+    Operator<Integer, String> getFixture() {
+        return fixture;
+    }
 }

@@ -1,7 +1,6 @@
 package ca.wbac.callbags.basics.operator;
 
-import ca.wbac.callbags.core.SourceTalkback;
-import org.junit.jupiter.api.BeforeEach;
+import ca.wbac.callbags.core.Operator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,29 +14,16 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class FilterTest extends AbstractOperatorTest {
+final class FilterTest extends AbstractOperatorTest<Integer, Integer> {
     @Spy
     private Predicate<Integer> predicate;
     @InjectMocks
     private Filter<Integer> fixture;
 
-    @BeforeEach
-    void whenStarted() {
-        fixture.apply(source).start(sink);
-        verify(source).start(sinkCaptor.capture());
-    }
-
-    @Test
-    @DisplayName("should handshake")
-    void testHandshake() {
-        SourceTalkback talkback = spy(SourceTalkback.class);
-        sinkCaptor.getValue().start(talkback);
-        verify(sink).start(talkback);
-    }
-
     @Test
     @DisplayName("should not deliver data when predicate is false")
     void testFalsyPredicate() {
+        when(predicate.test(5)).thenReturn(false);
         sinkCaptor.getValue().deliver(5);
         verify(sink, never()).deliver(any(Integer.class));
     }
@@ -48,5 +34,10 @@ class FilterTest extends AbstractOperatorTest {
         when(predicate.test(5)).thenReturn(true);
         sinkCaptor.getValue().deliver(5);
         verify(sink).deliver(5);
+    }
+
+    @Override
+    Operator<Integer, Integer> getFixture() {
+        return fixture;
     }
 }

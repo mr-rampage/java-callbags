@@ -1,36 +1,16 @@
 package ca.wbac.callbags.basics.operator;
 
-import ca.wbac.callbags.core.SourceTalkback;
-import org.junit.jupiter.api.BeforeEach;
+import ca.wbac.callbags.core.Operator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class SkipTest extends AbstractOperatorTest {
-    @Spy
-    private SourceTalkback talkback;
-
-    private Skip<Integer> fixture = new Skip<>(3);
-
-    @BeforeEach
-    void whenStarted() {
-        fixture.apply(source).start(sink);
-        verify(source).start(sinkCaptor.capture());
-        sinkCaptor.getValue().start(talkback);
-    }
-
-    @Test
-    @DisplayName("should handshake")
-    void testHandshake() {
-        verify(sink).start(talkback);
-    }
-
+class SkipTest extends AbstractOperatorTest<Integer, Integer> {
     @Test
     @DisplayName("should not deliver when deliveries less than max")
     void testSkipDelivery() {
@@ -48,5 +28,10 @@ class SkipTest extends AbstractOperatorTest {
         sinkCaptor.getValue().deliver(4);
         verify(talkback, times(3)).request();
         verify(sink).deliver(4);
+    }
+
+    @Override
+    Operator<Integer, Integer> getFixture() {
+        return new Skip<>(3);
     }
 }
