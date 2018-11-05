@@ -24,13 +24,14 @@ class e2e {
                 range(0, 10),
                 Operator.<Integer>skip(2)
                         .andThen(map(x -> x * 2))
-                        .andThen(filter(x -> x < 10))
+                        .andThen(scan((acc, x) -> acc + x, 0))
+                        .andThen(filter(x -> x < 12))
                         .andThen(take(2))
                 ,
                 forEach(actual::add)
         );
 
-        List<Integer> expected = List.of(4, 6);
+        List<Integer> expected = List.of(4, 10);
         assertThat(actual, is(expected));
     }
 }
