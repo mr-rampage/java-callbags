@@ -15,4 +15,8 @@ public final class Operator {
     public static <T> Skip<T> skip(final int max) {
         return new Skip<>(max);
     }
+
+    public static <T> Take<T> take(final int max) {
+        return new Take<>(max);
+    }
 }

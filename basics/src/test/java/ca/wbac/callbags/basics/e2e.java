@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ca.wbac.callbags.basics.operator.Operator.filter;
-import static ca.wbac.callbags.basics.operator.Operator.map;
+import static ca.wbac.callbags.basics.operator.Operator.*;
 import static ca.wbac.callbags.basics.sink.Sink.forEach;
 import static ca.wbac.callbags.basics.source.Source.range;
 import static ca.wbac.callbags.basics.util.Utils.pipe;
@@ -25,11 +24,13 @@ class e2e {
                 range(0, 10),
                 Operator.<Integer>skip(2)
                         .andThen(map(x -> x * 2))
-                        .andThen(filter(x -> x < 10)),
+                        .andThen(filter(x -> x < 10))
+                        .andThen(take(2))
+                ,
                 forEach(actual::add)
         );
 
-        List<Integer> expected = List.of(4, 6, 8);
+        List<Integer> expected = List.of(4, 6);
         assertThat(actual, is(expected));
     }
 }
