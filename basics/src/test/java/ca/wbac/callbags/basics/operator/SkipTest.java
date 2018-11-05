@@ -3,13 +3,10 @@ package ca.wbac.callbags.basics.operator;
 import ca.wbac.callbags.core.Operator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
 class SkipTest extends AbstractOperatorTest<Integer, Integer> {
     @Test
     @DisplayName("should not deliver when deliveries less than max")

@@ -3,17 +3,14 @@ package ca.wbac.callbags.basics.operator;
 import ca.wbac.callbags.core.Operator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.function.Predicate;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
 final class FilterTest extends AbstractOperatorTest<Integer, Integer> {
     @Spy
     private Predicate<Integer> predicate;
