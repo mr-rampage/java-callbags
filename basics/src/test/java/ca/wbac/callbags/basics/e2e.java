@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static ca.wbac.callbags.basics.operator.Operator.*;
@@ -31,7 +32,7 @@ class e2e {
                 forEach(actual::add)
         );
 
-        List<Integer> expected = List.of(4, 10);
+        List<Integer> expected = Arrays.asList(4, 10);
         assertThat(actual, is(expected));
     }
 }

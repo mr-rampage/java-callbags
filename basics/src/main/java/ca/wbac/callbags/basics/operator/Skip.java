@@ -14,7 +14,7 @@ public final class Skip<T> implements Operator<T, T> {
 
     @Override
     public SourceInitiator<T> apply(SourceInitiator<T> inputSink) {
-        return outputSink -> inputSink.start(new SinkTalkback<>() {
+        return outputSink -> inputSink.start(new SinkTalkback<T>() {
             private int skipped = 0;
             private SourceTalkback source;
 

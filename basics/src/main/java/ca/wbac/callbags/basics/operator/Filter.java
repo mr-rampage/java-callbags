@@ -17,7 +17,7 @@ public final class Filter<T> implements Operator<T, T> {
 
     @Override
     public SourceInitiator<T> apply(SourceInitiator<T> inputSink) {
-        return outputSink -> inputSink.start(new SinkTalkback<>() {
+        return outputSink -> inputSink.start(new SinkTalkback<T>() {
             @Override
             public void start(SourceTalkback sourceTalkback) {
                 outputSink.start(sourceTalkback);

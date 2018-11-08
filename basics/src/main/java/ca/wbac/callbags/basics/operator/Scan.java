@@ -19,7 +19,7 @@ public final class Scan<I, O> implements Operator<I, O> {
 
     @Override
     public SourceInitiator<O> apply(SourceInitiator<I> inputSink) {
-        return outputSink -> inputSink.start(new SinkTalkback<>() {
+        return outputSink -> inputSink.start(new SinkTalkback<I>() {
             private O accumulator = seed;
 
             @Override

@@ -16,7 +16,7 @@ public final class Map<I, O> implements Operator<I, O> {
 
     @Override
     public SourceInitiator<O> apply(SourceInitiator<I> inputSink) {
-        return outputSink -> inputSink.start(new SinkTalkback<>() {
+        return outputSink -> inputSink.start(new SinkTalkback<I>() {
             @Override
             public void start(SourceTalkback sourceTalkback) {
                 outputSink.start(sourceTalkback);

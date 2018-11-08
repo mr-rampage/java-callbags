@@ -16,7 +16,7 @@ public final class ForEach<T> implements SinkTerminator<T> {
 
     @Override
     public void accept(SourceInitiator<T> inputSource) {
-        inputSource.start(new SinkTalkback<>() {
+        inputSource.start(new SinkTalkback<T>() {
             private SourceTalkback sourceTalkback;
 
             @Override
