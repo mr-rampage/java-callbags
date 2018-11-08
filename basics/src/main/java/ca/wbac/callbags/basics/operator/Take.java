@@ -2,7 +2,7 @@ package ca.wbac.callbags.basics.operator;
 
 import ca.wbac.callbags.core.Operator;
 import ca.wbac.callbags.core.SinkTalkback;
-import ca.wbac.callbags.core.SourceInitiator;
+import ca.wbac.callbags.core.Source;
 import ca.wbac.callbags.core.SourceTalkback;
 
 public final class Take<T> implements Operator<T, T> {
@@ -13,7 +13,7 @@ public final class Take<T> implements Operator<T, T> {
     }
 
     @Override
-    public SourceInitiator<T> apply(SourceInitiator<T> inputSink) {
+    public Source<T> apply(Source<T> inputSink) {
         return outputSink -> inputSink.start(new SinkTalkback<T>() {
             private int taken = 0;
             private SourceTalkback source;

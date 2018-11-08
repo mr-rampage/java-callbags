@@ -1,7 +1,7 @@
 package ca.wbac.callbags.basics.source;
 
+import ca.wbac.callbags.core.Source;
 import ca.wbac.callbags.core.SourceFactory;
-import ca.wbac.callbags.core.SourceInitiator;
 import ca.wbac.callbags.core.SourceTalkback;
 
 public final class Range implements SourceFactory<Integer> {
@@ -14,7 +14,7 @@ public final class Range implements SourceFactory<Integer> {
     }
 
     @Override
-    public SourceInitiator<Integer> get() {
+    public Source<Integer> get() {
         return sinkTalkback -> sinkTalkback.start(new SourceTalkback() {
             private boolean started = false;
 

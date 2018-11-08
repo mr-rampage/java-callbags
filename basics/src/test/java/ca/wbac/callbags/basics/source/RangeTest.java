@@ -1,7 +1,7 @@
 package ca.wbac.callbags.basics.source;
 
 import ca.wbac.callbags.core.SinkTalkback;
-import ca.wbac.callbags.core.SourceInitiator;
+import ca.wbac.callbags.core.Source;
 import ca.wbac.callbags.core.SourceTalkback;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -26,7 +26,7 @@ class RangeTest {
     private SinkTalkback<Integer> sink;
     @Captor
     private ArgumentCaptor<SourceTalkback> talkbackCaptor;
-    private SourceInitiator<Integer> fixture = new Range(0, 10).get();
+    private Source<Integer> fixture = new Range(0, 10).get();
 
     @BeforeEach
     void whenStarted() {

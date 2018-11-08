@@ -1,13 +1,13 @@
 package ca.wbac.callbags.basics.sink;
 
+import ca.wbac.callbags.core.Sink;
 import ca.wbac.callbags.core.SinkTalkback;
-import ca.wbac.callbags.core.SinkTerminator;
-import ca.wbac.callbags.core.SourceInitiator;
+import ca.wbac.callbags.core.Source;
 import ca.wbac.callbags.core.SourceTalkback;
 
 import java.util.function.Consumer;
 
-public final class ForEach<T> implements SinkTerminator<T> {
+public final class ForEach<T> implements Sink<T> {
     private final Consumer<T> consumer;
 
     ForEach(Consumer<T> consumer) {
@@ -15,7 +15,7 @@ public final class ForEach<T> implements SinkTerminator<T> {
     }
 
     @Override
-    public void accept(SourceInitiator<T> inputSource) {
+    public void accept(Source<T> inputSource) {
         inputSource.start(new SinkTalkback<T>() {
             private SourceTalkback sourceTalkback;
 

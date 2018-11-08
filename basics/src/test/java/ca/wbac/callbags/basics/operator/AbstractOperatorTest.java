@@ -2,7 +2,7 @@ package ca.wbac.callbags.basics.operator;
 
 import ca.wbac.callbags.core.Operator;
 import ca.wbac.callbags.core.SinkTalkback;
-import ca.wbac.callbags.core.SourceInitiator;
+import ca.wbac.callbags.core.Source;
 import ca.wbac.callbags.core.SourceTalkback;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 abstract class AbstractOperatorTest<I, O> {
     @Spy
-    protected SourceInitiator<I> source;
+    protected Source<I> source;
     @Spy
     protected SinkTalkback<O> sink;
     @Spy

@@ -1,5 +1,5 @@
 package ca.wbac.callbags.core;
 
-public interface SourceInitiator<T> {
+public interface Source<T> {
     void start(SinkTalkback<T> sinkTalkback);
 }

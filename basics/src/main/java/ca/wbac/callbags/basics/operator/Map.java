@@ -2,7 +2,7 @@ package ca.wbac.callbags.basics.operator;
 
 import ca.wbac.callbags.core.Operator;
 import ca.wbac.callbags.core.SinkTalkback;
-import ca.wbac.callbags.core.SourceInitiator;
+import ca.wbac.callbags.core.Source;
 import ca.wbac.callbags.core.SourceTalkback;
 
 import java.util.function.Function;
@@ -15,7 +15,7 @@ public final class Map<I, O> implements Operator<I, O> {
     }
 
     @Override
-    public SourceInitiator<O> apply(SourceInitiator<I> inputSink) {
+    public Source<O> apply(Source<I> inputSink) {
         return outputSink -> inputSink.start(new SinkTalkback<I>() {
             @Override
             public void start(SourceTalkback sourceTalkback) {

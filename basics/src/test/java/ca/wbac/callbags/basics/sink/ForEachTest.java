@@ -1,7 +1,7 @@
 package ca.wbac.callbags.basics.sink;
 
 import ca.wbac.callbags.core.SinkTalkback;
-import ca.wbac.callbags.core.SourceInitiator;
+import ca.wbac.callbags.core.Source;
 import ca.wbac.callbags.core.SourceTalkback;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 class ForEachTest {
     @Spy
-    private SourceInitiator<Integer> inputSource;
+    private Source<Integer> inputSource;
     @Spy
     private SourceTalkback sourceTalkback;
     @Spy
