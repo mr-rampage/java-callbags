@@ -13,4 +13,9 @@ public class Utils {
                                    Sink<K> sink) {
         sink.accept(operations.apply(source.get()));
     }
+
+    public static <T> void pipe(SourceFactory<T> source,
+                                Sink<T> sink) {
+        sink.accept(source.get());
+    }
 }

@@ -1,6 +1,7 @@
 package ca.wbac.callbags.basics;
 
 import ca.wbac.callbags.basics.operator.Operator;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -10,6 +11,7 @@ import java.util.List;
 
 import static ca.wbac.callbags.basics.operator.Operator.*;
 import static ca.wbac.callbags.basics.sink.Sink.forEach;
+import static ca.wbac.callbags.basics.source.Source.interval;
 import static ca.wbac.callbags.basics.source.Source.range;
 import static ca.wbac.callbags.basics.util.Utils.pipe;
 import static org.hamcrest.CoreMatchers.is;
@@ -34,5 +36,19 @@ class e2e {
 
         List<Integer> expected = Arrays.asList(4, 10);
         assertThat(actual, is(expected));
+    }
+
+    @Test
+    @DisplayName("Test listenable")
+    @Disabled
+    void testListenable() throws InterruptedException {
+        pipe(
+                interval(200),
+                map((Integer x) -> x * 2)
+                        .andThen(scan((acc, x) -> acc + x, 0))
+                ,
+                forEach(System.out::println)
+        );
+        Thread.sleep(1000L * 2);
     }
 }
