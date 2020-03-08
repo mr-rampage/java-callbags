@@ -1,61 +1,50 @@
 package ca.wbac.callbags.basics.sink;
 
-import ca.wbac.callbags.core.SinkTalkback;
-import ca.wbac.callbags.core.Source;
-import ca.wbac.callbags.core.SourceTalkback;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
+import ca.wbac.callbags.basics.helpers.PullableSource;
+import ca.wbac.callbags.basics.helpers.PushableSource;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Spy;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.function.Consumer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.verify;
+import static org.quicktheories.QuickTheory.qt;
+import static org.quicktheories.generators.SourceDSL.integers;
+import static org.quicktheories.generators.SourceDSL.lists;
 
-@ExtendWith(MockitoExtension.class)
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class ForEachTest {
-    @Spy
-    private Source<Integer> inputSource;
-    @Spy
-    private SourceTalkback sourceTalkback;
-    @Spy
-    private Consumer<Integer> consumer;
-    @Captor
-    private ArgumentCaptor<SinkTalkback<Integer>> talkbackCaptor;
-    @InjectMocks
-    private ForEach<Integer> fixture;
-
-    private SinkTalkback<Integer> talkback;
-
-    @BeforeEach
-    void captureTalkback() {
-        fixture.accept(inputSource);
-        verify(inputSource).start(talkbackCaptor.capture());
-        talkback = talkbackCaptor.getValue();
+    @Test
+    void should_consume_from_a_pullable_source() {
+        qt().forAll(lists().of(integers().all()).ofSizes(integers().between(0, 1000)))
+                .check((List<Integer> integerList) -> {
+                    final var processed = new ArrayList<Integer>();
+                    Sink.<Integer, Object>forEach(processed::add)
+                            .accept(PullableSource.of(integerList));
+                    return processed.size() == integerList.size();
+                });
     }
 
     @Test
-    @DisplayName("should request data on handshake")
-    void testHandshake() {
-        talkback.start(sourceTalkback);
-        verify(sourceTalkback).request();
-    }
+    void should_consume_from_a_pushable_source() {
+        qt()
+                .withExamples(20)
+                .forAll(lists().of(integers().all()).ofSizes(integers().between(0, 10)))
+                .check((List<Integer> integerList) -> {
+                    final CompletableFuture<Integer> completableFuture = new CompletableFuture<>();
+                    final var processed = new ArrayList<Integer>();
 
-    @Test
-    @DisplayName("should consumer data and request data")
-    void testDelivery() {
-        talkback.start(sourceTalkback);
-        reset(sourceTalkback);
+                    Sink.<Integer, Object>forEach(processed::add)
+                            .accept(PushableSource.of(integerList, completableFuture));
 
-        talkback.deliver(5);
-
-        verify(consumer).accept(5);
-        verify(sourceTalkback).request();
+                    try {
+                        return completableFuture.get() == processed.size();
+                    } catch (InterruptedException | ExecutionException e) {
+                        return false;
+                    }
+                });
     }
 }
