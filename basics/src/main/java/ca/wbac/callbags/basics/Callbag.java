@@ -1,6 +1,6 @@
 package ca.wbac.callbags.basics;
 
-public class NoopCallbag<I, O, E> implements ISink<I, E>, ISource<O, E> {
+public class Callbag<I, O, E> implements ISink<I, E>, ISource<O, E> {
     @Override
     public void greet(ISource<I, E> talkback) {
 

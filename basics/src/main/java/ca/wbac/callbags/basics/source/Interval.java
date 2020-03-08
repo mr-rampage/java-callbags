@@ -1,8 +1,8 @@
 package ca.wbac.callbags.basics.source;
 
+import ca.wbac.callbags.basics.Callbag;
 import ca.wbac.callbags.basics.ISink;
 import ca.wbac.callbags.basics.ISource;
-import ca.wbac.callbags.basics.NoopCallbag;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -18,7 +18,7 @@ final class Interval<E> implements ISource<Integer, E> {
     public void greet(final ISink<Integer, E> sink) {
         Timer timer = new Timer();
 
-        sink.greet(new NoopCallbag<>() {
+        sink.greet(new Callbag<>() {
             @Override
             public void terminate() {
                 timer.cancel();

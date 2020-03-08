@@ -27,9 +27,7 @@ public class Sink<E> implements ISink<Integer, E> {
         this.receivedMessages++;
         if (this.expectedMessages == this.receivedMessages) {
             this.talkback.terminate();
-            if (future != null) {
-                future.complete(data);
-            }
+            future.complete(data);
         }
         this.talkback.request();
     }

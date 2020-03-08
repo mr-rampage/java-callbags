@@ -1,12 +1,12 @@
 package ca.wbac.callbags.basics.source;
 
-import ca.wbac.callbags.core.Source;
-import ca.wbac.callbags.core.SourceFactory;
-import ca.wbac.callbags.core.SourceTalkback;
+import ca.wbac.callbags.basics.Callbag;
+import ca.wbac.callbags.basics.ISink;
+import ca.wbac.callbags.basics.ISource;
 
-public final class Range implements SourceFactory<Integer> {
-    private final Integer lowerBound;
+final class Range<E> implements ISource<Integer, E> {
     private final Integer upperBound;
+    private final Integer lowerBound;
 
     Range(final Integer lowerBound, final Integer upperBound) {
         this.lowerBound = lowerBound;
@@ -14,21 +14,20 @@ public final class Range implements SourceFactory<Integer> {
     }
 
     @Override
-    public Source<Integer> get() {
-        return sinkTalkback -> sinkTalkback.start(new SourceTalkback() {
-            private boolean started = false;
+    public void greet(ISink<Integer, E> sink) {
+        sink.greet(new Callbag<>() {
+            private Integer currentValue = lowerBound;
 
             @Override
             public void request() {
-                if (!started) {
-                    started = true;
-                    Integer i = lowerBound;
-                    while (i < upperBound) {
-                        sinkTalkback.deliver(i++);
-                    }
-                    sinkTalkback.terminate();
+                if (currentValue <= upperBound) {
+                    sink.deliver(currentValue++);
                 }
             }
         });
+    }
+
+    @Override
+    public void request() {
     }
 }
