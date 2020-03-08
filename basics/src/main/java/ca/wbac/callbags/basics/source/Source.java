@@ -5,7 +5,7 @@ public final class Source {
         return new Range(lowerBound, upperBound);
     }
 
-    public static Interval interval(final long period) {
-        return new Interval(period);
+    public static <E> Interval<E> interval(final long period) {
+        return new Interval<>(period);
     }
 }

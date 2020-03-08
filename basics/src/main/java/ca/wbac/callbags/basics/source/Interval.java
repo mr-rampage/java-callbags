@@ -1,45 +1,53 @@
 package ca.wbac.callbags.basics.source;
 
-import ca.wbac.callbags.core.Source;
-import ca.wbac.callbags.core.SourceFactory;
-import ca.wbac.callbags.core.SourceTalkback;
+import ca.wbac.callbags.basics.ISink;
+import ca.wbac.callbags.basics.ISource;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public final class Interval implements SourceFactory<Integer> {
+final class Interval<E> implements ISource<Integer, E> {
     private final long period;
 
-    Interval(long period) {
+    public Interval(long period) {
         this.period = period;
     }
 
     @Override
-    public Source<Integer> get() {
-        return sinkTalkback -> sinkTalkback.start(new SourceTalkback() {
-            private TimerTask repeat = new TimerTask() {
-                private int i = 0;
+    public void greet(final ISink<Integer, E> sink) {
+        Timer timer = new Timer();
 
-                @Override
-                public void run() {
-                    sinkTalkback.deliver(i++);
-                }
-            };
-            private Timer timer = new Timer("timer");
-            private boolean started = false;
+        sink.greet(new ISource<>() {
+            @Override
+            public void greet(ISink<Integer, E> sink) {
+            }
 
             @Override
             public void request() {
-                if (!started) {
-                    started = true;
-                    timer.scheduleAtFixedRate(repeat, 0, period);
-                }
             }
 
             @Override
             public void terminate() {
                 timer.cancel();
             }
+
+            @Override
+            public void terminate(E error) {
+                this.terminate();
+            }
         });
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+            private int tick = 0;
+
+            @Override
+            public void run() {
+                sink.deliver(tick++);
+            }
+        }, 0, period);
+    }
+
+    @Override
+    public void request() {
     }
 }
