@@ -15,7 +15,7 @@ public class IntervalTest {
     void should_produce_for_a_sink() {
         qt()
                 .withExamples(5)
-                .forAll(integers().between(1, 100))
+                .forAll(integers().between(1, 1000))
                 .check(expected -> {
                     final CompletableFuture<Integer> completableFuture = new CompletableFuture<>();
                     var fakeSink = new Sink<>(expected, completableFuture);
