@@ -5,13 +5,15 @@ import ca.wbac.callbags.basics.ISink;
 import ca.wbac.callbags.basics.ISource;
 
 import java.util.Iterator;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 final class FromIterable<T, E> implements ISource<T, E> {
 
-    private Iterable<T> iterable;
+    private final Iterable<T> iterable;
 
-    public FromIterable(Iterable<T> iterable) {
-        this.iterable = iterable;
+    public FromIterable(final Iterable<T> iterable) {
+        this.iterable = StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toUnmodifiableList());
     }
 
     @Override
