@@ -23,8 +23,6 @@ final class FromIterable<T, E> implements ISource<T, E> {
             public void request() {
                 if (iterator.hasNext()) {
                     sink.deliver(iterator.next());
-                } else {
-                    sink.terminate();
                 }
             }
         });

@@ -24,8 +24,6 @@ public class FromIterableTest {
                     final var processed = new ArrayList<Integer>();
                     fromIter(integerList).accept(new ISink<>() {
                         private ISource<Integer, Object> talkback;
-                        private boolean started = true;
-
                         @Override
                         public void greet(ISource<Integer, Object> talkback) {
                             this.talkback = talkback;
@@ -35,14 +33,7 @@ public class FromIterableTest {
                         @Override
                         public void deliver(Integer data) {
                             processed.add(data);
-                            if (started) {
-                                this.talkback.request();
-                            }
-                        }
-
-                        @Override
-                        public void terminate() {
-                            this.started = false;
+                            this.talkback.request();
                         }
                     });
                     return integerList.equals(processed);
