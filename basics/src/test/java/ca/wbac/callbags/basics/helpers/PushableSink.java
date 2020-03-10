@@ -30,9 +30,15 @@ public class PushableSink<I, E> implements ISink<I, E> {
     public void deliver(I data) {
         this.processed.set(this.receivedMessages++, data);
         if (this.processed.size() == this.receivedMessages) {
-            this.talkback.terminate();
             future.complete(this.processed);
+            this.talkback.terminate();
+        } else {
+            this.talkback.request();
         }
-        this.talkback.request();
+    }
+
+    @Override
+    public void terminate() {
+        future.complete(this.processed);
     }
 }

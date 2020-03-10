@@ -2,6 +2,7 @@ package ca.wbac.callbags.basics.source;
 
 import ca.wbac.callbags.basics.ISink;
 
+import java.util.concurrent.Flow.Publisher;
 import java.util.function.Consumer;
 
 public final class Source {
@@ -15,5 +16,9 @@ public final class Source {
 
     public static <T, E> Consumer<ISink<T, E>> fromIter(final java.lang.Iterable<T> iterable) {
         return sink -> new Iterable<T, E>(iterable).greet(sink);
+    }
+
+    public static <T, E> Consumer<ISink<T, E>> fromFlow(final Publisher<T> publisher) {
+        return sink -> new Flow<T, E>(publisher).greet(sink);
     }
 }
