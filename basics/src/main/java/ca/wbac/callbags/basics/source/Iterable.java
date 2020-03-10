@@ -8,11 +8,11 @@ import java.util.Iterator;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-final class FromIterable<T, E> implements ISource<T, E> {
+final class Iterable<T, E> implements ISource<T, E> {
 
-    private final Iterable<T> iterable;
+    private final java.lang.Iterable<T> iterable;
 
-    public FromIterable(final Iterable<T> iterable) {
+    public Iterable(final java.lang.Iterable<T> iterable) {
         this.iterable = StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toUnmodifiableList());
     }
 

@@ -13,7 +13,7 @@ public final class Source {
         return sink -> new Interval<E>(period).greet(sink);
     }
 
-    public static <T, E> Consumer<ISink<T, E>> fromIter(final Iterable<T> iterable) {
-        return sink -> new FromIterable<T, E>(iterable).greet(sink);
+    public static <T, E> Consumer<ISink<T, E>> fromIter(final java.lang.Iterable<T> iterable) {
+        return sink -> new Iterable<T, E>(iterable).greet(sink);
     }
 }
