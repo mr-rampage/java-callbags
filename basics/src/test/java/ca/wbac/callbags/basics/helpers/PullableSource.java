@@ -5,8 +5,8 @@ import ca.wbac.callbags.basics.ISource;
 
 import java.util.List;
 
-public final class PullableSource<T, E> implements ISource<T, E> {
-    private ISink<T, E> sink;
+public final class PullableSource<T> implements ISource<T> {
+    private ISink<T> sink;
     private int sent = 0;
     private final List<T> list;
 
@@ -14,12 +14,12 @@ public final class PullableSource<T, E> implements ISource<T, E> {
         this.list = list;
     }
 
-    public static <T, E> PullableSource<T, E> of(List<T> list) {
+    public static <T> PullableSource<T> of(List<T> list) {
         return new PullableSource<>(list);
     }
 
     @Override
-    public void greet(ISink<T, E> sink) {
+    public void greet(ISink<T> sink) {
         this.sink = sink;
         sink.greet(this);
     }

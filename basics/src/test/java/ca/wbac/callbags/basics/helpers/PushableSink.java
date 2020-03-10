@@ -8,9 +8,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class PushableSink<I, E> implements ISink<I, E> {
+public class PushableSink<I> implements ISink<I> {
     private final CompletableFuture<Collection<I>> future;
-    private ISource<I, E> talkback;
+    private ISource<I> talkback;
     private List<I> processed;
     private int receivedMessages = 0;
 
@@ -21,7 +21,7 @@ public class PushableSink<I, E> implements ISink<I, E> {
     }
 
     @Override
-    public void greet(ISource<I, E> talkback) {
+    public void greet(ISource<I> talkback) {
         this.talkback = talkback;
         this.talkback.request();
     }

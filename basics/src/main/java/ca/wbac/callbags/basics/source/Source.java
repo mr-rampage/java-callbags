@@ -6,19 +6,19 @@ import java.util.concurrent.Flow.Publisher;
 import java.util.function.Consumer;
 
 public final class Source {
-    public static <E> Consumer<ISink<Integer, E>> range(final int lowerBound, final int upperBound) {
-        return sink -> new Range<E>(lowerBound, upperBound).greet(sink);
+    public static Consumer<ISink<Integer>> range(final int lowerBound, final int upperBound) {
+        return sink -> new Range(lowerBound, upperBound).greet(sink);
     }
 
-    public static <E> Consumer<ISink<Integer, E>> interval(final long period) {
-        return sink -> new Interval<E>(period).greet(sink);
+    public static Consumer<ISink<Integer>> interval(final long period) {
+        return sink -> new Interval(period).greet(sink);
     }
 
-    public static <T, E> Consumer<ISink<T, E>> fromIter(final java.lang.Iterable<T> iterable) {
-        return sink -> new Iterable<T, E>(iterable).greet(sink);
+    public static <T> Consumer<ISink<T>> fromIter(final java.lang.Iterable<T> iterable) {
+        return sink -> new Iterable<>(iterable).greet(sink);
     }
 
-    public static <T, E> Consumer<ISink<T, E>> fromFlow(final Publisher<T> publisher) {
-        return sink -> new Flow<T, E>(publisher).greet(sink);
+    public static <T> Consumer<ISink<T>> fromFlow(final Publisher<T> publisher) {
+        return sink -> new Flow<>(publisher).greet(sink);
     }
 }

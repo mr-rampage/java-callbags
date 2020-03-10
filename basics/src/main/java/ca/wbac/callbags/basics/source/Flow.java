@@ -8,7 +8,7 @@ import java.util.concurrent.Flow.Publisher;
 import java.util.concurrent.Flow.Subscriber;
 import java.util.concurrent.Flow.Subscription;
 
-final class Flow<T, E> implements ISource<T, E> {
+final class Flow<T> implements ISource<T> {
 
     private final Publisher<T> publisher;
 
@@ -17,8 +17,8 @@ final class Flow<T, E> implements ISource<T, E> {
     }
 
     @Override
-    public void greet(final ISink<T, E> sink) {
-        final SinkSubscriber<T, E> subscriber = new SinkSubscriber<>(sink);
+    public void greet(final ISink<T> sink) {
+        final SinkSubscriber<T> subscriber = new SinkSubscriber<>(sink);
         this.publisher.subscribe(subscriber);
 
         sink.greet(new Callbag<>() {
@@ -34,11 +34,11 @@ final class Flow<T, E> implements ISource<T, E> {
 
     }
 
-    private final static class SinkSubscriber<T, E> implements Subscriber<T> {
+    private final static class SinkSubscriber<T> implements Subscriber<T> {
         private Subscription subscription;
-        private ISink<T, E> sink;
+        private ISink<T> sink;
 
-        SinkSubscriber(final ISink<T, E> sink) {
+        SinkSubscriber(final ISink<T> sink) {
             this.sink = sink;
         }
 
@@ -61,7 +61,7 @@ final class Flow<T, E> implements ISource<T, E> {
 
         @Override
         public void onError(final Throwable throwable) {
-            this.sink.terminate();
+            this.sink.terminate(throwable);
         }
 
         @Override

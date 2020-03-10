@@ -1,9 +1,9 @@
 package ca.wbac.callbags.basics;
 
-public interface ICallbag<E> {
+public interface ICallbag {
     default void terminate() {
     }
 
-    default void terminate(E error) {
+    default void terminate(Throwable error) {
     }
 }

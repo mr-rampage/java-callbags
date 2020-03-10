@@ -1,7 +1,7 @@
 package ca.wbac.callbags.basics;
 
-public interface ISink<I, E> extends ICallbag<E> {
-    void greet(ISource<I, E> talkback);
+public interface ISink<I> extends ICallbag {
+    void greet(ISource<I> talkback);
 
     void deliver(I data);
 }

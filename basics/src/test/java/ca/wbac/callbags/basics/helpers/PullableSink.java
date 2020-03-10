@@ -5,8 +5,8 @@ import ca.wbac.callbags.basics.ISource;
 
 import java.util.Collection;
 
-public class PullableSink<I, E> implements ISink<I, E> {
-    private ISource<I, E> talkback;
+public class PullableSink<I> implements ISink<I> {
+    private ISource<I> talkback;
     private Collection<I> processed;
 
     public PullableSink(Collection<I> processed) {
@@ -14,7 +14,7 @@ public class PullableSink<I, E> implements ISink<I, E> {
     }
 
     @Override
-    public void greet(ISource<I, E> talkback) {
+    public void greet(ISource<I> talkback) {
         this.talkback = talkback;
         this.talkback.request();
     }

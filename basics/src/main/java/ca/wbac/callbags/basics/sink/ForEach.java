@@ -5,16 +5,16 @@ import ca.wbac.callbags.basics.ISource;
 
 import java.util.function.Consumer;
 
-final class ForEach<I, E> implements ISink<I, E> {
+final class ForEach<I> implements ISink<I> {
     private Consumer<I> operation;
-    private ISource<I, E> talkback;
+    private ISource<I> talkback;
 
     ForEach(Consumer<I> operation) {
         this.operation = operation;
     }
 
     @Override
-    public void greet(ISource<I, E> talkback) {
+    public void greet(ISource<I> talkback) {
         this.talkback = talkback;
         this.talkback.request();
     }

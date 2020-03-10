@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-final class Iterable<T, E> implements ISource<T, E> {
+final class Iterable<T> implements ISource<T> {
 
     private final java.lang.Iterable<T> iterable;
 
@@ -17,7 +17,7 @@ final class Iterable<T, E> implements ISource<T, E> {
     }
 
     @Override
-    public void greet(ISink<T, E> sink) {
+    public void greet(ISink<T> sink) {
         sink.greet(new Callbag<>() {
             Iterator<T> iterator = iterable.iterator();
 

@@ -7,7 +7,7 @@ import ca.wbac.callbags.basics.ISource;
 import java.util.Timer;
 import java.util.TimerTask;
 
-final class Interval<E> implements ISource<Integer, E> {
+final class Interval implements ISource<Integer> {
     private final long period;
 
     public Interval(long period) {
@@ -15,7 +15,7 @@ final class Interval<E> implements ISource<Integer, E> {
     }
 
     @Override
-    public void greet(final ISink<Integer, E> sink) {
+    public void greet(final ISink<Integer> sink) {
         Timer timer = new Timer();
 
         sink.greet(new Callbag<>() {
@@ -25,7 +25,7 @@ final class Interval<E> implements ISource<Integer, E> {
             }
 
             @Override
-            public void terminate(E error) {
+            public void terminate(Throwable error) {
                 timer.cancel();
             }
         });

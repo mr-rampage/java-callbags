@@ -8,7 +8,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CompletableFuture;
 
-public final class PushableSource<T, E> implements ISource<T, E> {
+public final class PushableSource<T> implements ISource<T> {
     private final Timer timer = new Timer();
     private final CompletableFuture<Integer> completableFuture;
     private final List<T> list;
@@ -18,12 +18,12 @@ public final class PushableSource<T, E> implements ISource<T, E> {
         this.list = list;
     }
 
-    public static <T, E> PushableSource<T, E> of(List<T> list, CompletableFuture<Integer> completableFuture) {
+    public static <T> PushableSource<T> of(List<T> list, CompletableFuture<Integer> completableFuture) {
         return new PushableSource<>(list, completableFuture);
     }
 
     @Override
-    public void greet(ISink<T, E> sink) {
+    public void greet(ISink<T> sink) {
         sink.greet(this);
 
         timer.scheduleAtFixedRate(new TimerTask() {

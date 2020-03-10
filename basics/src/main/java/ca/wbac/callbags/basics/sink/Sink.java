@@ -5,8 +5,8 @@ import ca.wbac.callbags.basics.ISource;
 import java.util.function.Consumer;
 
 public final class Sink {
-    public static <T, E> Consumer<ISource<T, E>> forEach(final Consumer<T> consumer) {
-        var sink = new ForEach<T, E>(consumer);
+    public static <T> Consumer<ISource<T>> forEach(final Consumer<T> consumer) {
+        var sink = new ForEach<>(consumer);
         return source -> source.greet(sink);
     }
 }

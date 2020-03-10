@@ -4,7 +4,7 @@ import ca.wbac.callbags.basics.Callbag;
 import ca.wbac.callbags.basics.ISink;
 import ca.wbac.callbags.basics.ISource;
 
-final class Range<E> implements ISource<Integer, E> {
+final class Range implements ISource<Integer> {
     private final Integer upperBound;
     private final Integer lowerBound;
 
@@ -14,7 +14,7 @@ final class Range<E> implements ISource<Integer, E> {
     }
 
     @Override
-    public void greet(ISink<Integer, E> sink) {
+    public void greet(ISink<Integer> sink) {
         sink.greet(new Callbag<>() {
             private Integer currentValue = lowerBound;
 

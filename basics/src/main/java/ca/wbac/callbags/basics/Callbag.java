@@ -1,8 +1,8 @@
 package ca.wbac.callbags.basics;
 
-public class Callbag<I, O, E> implements ISink<I, E>, ISource<O, E> {
+public class Callbag<I, O> implements ISink<I>, ISource<O> {
     @Override
-    public void greet(ISource<I, E> talkback) {
+    public void greet(ISource<I> talkback) {
 
     }
 
@@ -12,7 +12,7 @@ public class Callbag<I, O, E> implements ISink<I, E>, ISource<O, E> {
     }
 
     @Override
-    public void greet(ISink<O, E> sink) {
+    public void greet(ISink<O> sink) {
 
     }
 
