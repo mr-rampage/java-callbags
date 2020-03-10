@@ -1,5 +1,7 @@
 package ca.wbac.callbags.basics.util;
 
+import ca.wbac.callbags.basics.ISink;
+import ca.wbac.callbags.basics.ISource;
 import ca.wbac.callbags.core.Sink;
 import ca.wbac.callbags.core.Source;
 import ca.wbac.callbags.core.SourceFactory;
@@ -17,5 +19,9 @@ public class Utils {
     public static <T> void pipe(SourceFactory<T> source,
                                 Sink<T> sink) {
         sink.accept(source.get());
+    }
+
+    public static <T> void pipe(ISource<T> source, ISink<T> sink) {
+        source.greet(sink);
     }
 }

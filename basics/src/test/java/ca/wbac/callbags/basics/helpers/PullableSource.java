@@ -10,12 +10,8 @@ public final class PullableSource<T> implements ISource<T> {
     private int sent = 0;
     private final List<T> list;
 
-    private PullableSource(List<T> list) {
+    public PullableSource(List<T> list) {
         this.list = list;
-    }
-
-    public static <T> PullableSource<T> of(List<T> list) {
-        return new PullableSource<>(list);
     }
 
     @Override

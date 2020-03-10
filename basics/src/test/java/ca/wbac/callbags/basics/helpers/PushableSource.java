@@ -13,13 +13,9 @@ public final class PushableSource<T> implements ISource<T> {
     private final CompletableFuture<Integer> completableFuture;
     private final List<T> list;
 
-    private PushableSource(List<T> list, CompletableFuture<Integer> completableFuture) {
+    public PushableSource(List<T> list, CompletableFuture<Integer> completableFuture) {
         this.completableFuture = completableFuture;
         this.list = list;
-    }
-
-    public static <T> PushableSource<T> of(List<T> list, CompletableFuture<Integer> completableFuture) {
-        return new PushableSource<>(list, completableFuture);
     }
 
     @Override

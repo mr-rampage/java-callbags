@@ -1,12 +1,11 @@
 package ca.wbac.callbags.basics.sink;
 
-import ca.wbac.callbags.basics.ISource;
+import ca.wbac.callbags.basics.ISink;
 
 import java.util.function.Consumer;
 
 public interface Sink {
-    static <T> Consumer<ISource<T>> forEach(final Consumer<T> consumer) {
-        var sink = new ForEach<>(consumer);
-        return source -> source.greet(sink);
+    static <T> ISink<T> forEach(final Consumer<T> consumer) {
+        return new ForEach<>(consumer);
     }
 }

@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import static ca.wbac.callbags.basics.sink.Sink.forEach;
+import static ca.wbac.callbags.basics.util.Utils.pipe;
 import static org.quicktheories.QuickTheory.qt;
 import static org.quicktheories.generators.SourceDSL.integers;
 import static org.quicktheories.generators.SourceDSL.lists;
@@ -22,8 +24,10 @@ class ForEachTest {
         qt().forAll(lists().of(integers().all()).ofSizes(integers().between(0, 1000)))
                 .check((List<Integer> integerList) -> {
                     final var processed = new ArrayList<Integer>();
-                    Sink.<Integer>forEach(processed::add)
-                            .accept(PullableSource.of(integerList));
+                    pipe(
+                            new PullableSource<>(integerList),
+                            forEach(processed::add)
+                    );
                     return processed.size() == integerList.size();
                 });
     }
@@ -37,8 +41,10 @@ class ForEachTest {
                     final CompletableFuture<Integer> completableFuture = new CompletableFuture<>();
                     final var processed = new ArrayList<Integer>();
 
-                    Sink.<Integer>forEach(processed::add)
-                            .accept(PushableSource.of(integerList, completableFuture));
+                    pipe(
+                            new PushableSource<>(integerList, completableFuture),
+                            forEach(processed::add)
+                    );
 
                     try {
                         return completableFuture.get() == processed.size();

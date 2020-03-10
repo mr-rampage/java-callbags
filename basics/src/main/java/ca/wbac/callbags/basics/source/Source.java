@@ -1,24 +1,23 @@
 package ca.wbac.callbags.basics.source;
 
-import ca.wbac.callbags.basics.ISink;
+import ca.wbac.callbags.basics.ISource;
 
 import java.util.concurrent.Flow.Publisher;
-import java.util.function.Consumer;
 
 public interface Source {
-    static Consumer<ISink<Integer>> range(final int lowerBound, final int upperBound) {
-        return sink -> new Range(lowerBound, upperBound).greet(sink);
+    static ISource<Integer> range(final int lowerBound, final int upperBound) {
+        return new Range(lowerBound, upperBound);
     }
 
-    static Consumer<ISink<Integer>> interval(final long period) {
-        return sink -> new Interval(period).greet(sink);
+    static ISource<Integer> interval(final long period) {
+        return new Interval(period);
     }
 
-    static <T> Consumer<ISink<T>> fromIter(final java.lang.Iterable<T> iterable) {
-        return sink -> new Iterable<>(iterable).greet(sink);
+    static <T> ISource<T> fromIter(final java.lang.Iterable<T> iterable) {
+        return new Iterable<>(iterable);
     }
 
-    static <T> Consumer<ISink<T>> fromFlow(final Publisher<T> publisher) {
-        return sink -> new Flow<>(publisher).greet(sink);
+    static <T> ISource<T> fromFlow(final Publisher<T> publisher) {
+        return new Flow<>(publisher);
     }
 }
