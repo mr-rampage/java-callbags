@@ -1,7 +1,6 @@
 package ca.wbac.callbags.basics.source;
 
-import ca.wbac.callbags.basics.ISink;
-import ca.wbac.callbags.basics.ISource;
+import ca.wbac.callbags.basics.helpers.PullableSink;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -17,25 +16,12 @@ import static org.quicktheories.generators.SourceDSL.lists;
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 public class FromIterableTest {
     @Test
-    void should_produce_for_a_sink() {
+    void should_pull_list_values() {
         qt()
                 .forAll(lists().of(integers().all()).ofSizes(integers().between(0, 1000)))
                 .check((List<Integer> integerList) -> {
                     final var processed = new ArrayList<Integer>();
-                    fromIter(integerList).accept(new ISink<>() {
-                        private ISource<Integer, Object> talkback;
-                        @Override
-                        public void greet(ISource<Integer, Object> talkback) {
-                            this.talkback = talkback;
-                            this.talkback.request();
-                        }
-
-                        @Override
-                        public void deliver(Integer data) {
-                            processed.add(data);
-                            this.talkback.request();
-                        }
-                    });
+                    fromIter(integerList).accept(new PullableSink<>(processed));
                     return integerList.equals(processed);
                 });
     }
