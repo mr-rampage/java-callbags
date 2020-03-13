@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static ca.wbac.callbags.basics.source.Source.fromIter;
-import static ca.wbac.callbags.basics.util.Utils.pipe;
 import static org.quicktheories.QuickTheory.qt;
 import static org.quicktheories.generators.SourceDSL.integers;
 import static org.quicktheories.generators.SourceDSL.lists;
@@ -22,10 +21,7 @@ public class FromIterableTest {
                 .forAll(lists().of(integers().all()).ofSizes(integers().between(0, 1000)))
                 .check((List<Integer> integerList) -> {
                     final var processed = new ArrayList<Integer>();
-                    pipe(
-                            fromIter(integerList),
-                            new PullableSink<>(processed)
-                    );
+                    fromIter(integerList).pipe(new PullableSink<>(processed));
                     return integerList.equals(processed);
                 });
     }

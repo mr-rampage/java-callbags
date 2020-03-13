@@ -1,12 +1,12 @@
 package ca.wbac.callbags.basics.helpers;
 
-import ca.wbac.callbags.basics.ISink;
-import ca.wbac.callbags.basics.ISource;
+import ca.wbac.callbags.core.Sink;
+import ca.wbac.callbags.core.Source;
 
 import java.util.Collection;
 
-public class PullableSink<I> implements ISink<I> {
-    private ISource<I> talkback;
+public class PullableSink<I> implements Sink<I> {
+    private Source<I> talkback;
     private Collection<I> processed;
 
     public PullableSink(Collection<I> processed) {
@@ -14,7 +14,7 @@ public class PullableSink<I> implements ISink<I> {
     }
 
     @Override
-    public void greet(ISource<I> talkback) {
+    public void greet(Source<I> talkback) {
         this.talkback = talkback;
         this.talkback.request();
     }

@@ -10,7 +10,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.SubmissionPublisher;
 
 import static ca.wbac.callbags.basics.source.Source.fromFlow;
-import static ca.wbac.callbags.basics.util.Utils.pipe;
 import static org.quicktheories.QuickTheory.qt;
 import static org.quicktheories.generators.SourceDSL.integers;
 import static org.quicktheories.generators.SourceDSL.lists;
@@ -25,10 +24,7 @@ public class FromFlowTest {
                     final var publisher = new SubmissionPublisher<Integer>();
                     final var completableFuture = new CompletableFuture<Collection<Integer>>();
 
-                    pipe(
-                            fromFlow(publisher),
-                            new PushableSink<>(integerList.size(), completableFuture)
-                    );
+                    fromFlow(publisher).pipe(new PushableSink<>(integerList.size(), completableFuture));
 
                     integerList.forEach(publisher::submit);
                     publisher.close();

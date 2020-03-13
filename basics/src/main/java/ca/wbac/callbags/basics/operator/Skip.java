@@ -1,6 +1,6 @@
 package ca.wbac.callbags.basics.operator;
 
-import ca.wbac.callbags.basics.AbstractOperator;
+import ca.wbac.callbags.core.AbstractOperator;
 
 public final class Skip<T> extends AbstractOperator<T, T> {
     private final int max;

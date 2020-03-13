@@ -1,16 +1,16 @@
-package ca.wbac.callbags.basics;
+package ca.wbac.callbags.core;
 
-public abstract class AbstractOperator<I, O> implements ISource<O>, ISink<I> {
-    protected ISource<I> source;
-    protected ISink<O> sink;
+public abstract class AbstractOperator<I, O> implements Source<O>, Sink<I> {
+    protected Source<I> source;
+    protected Sink<O> sink;
 
     @Override
-    public void greet(ISource<I> source) {
+    public void greet(Source<I> source) {
         this.source = source;
     }
 
     @Override
-    public void greet(ISink<O> sink) {
+    public void greet(Sink<O> sink) {
         this.sink = sink;
         sink.greet(this);
     }
@@ -18,10 +18,6 @@ public abstract class AbstractOperator<I, O> implements ISource<O>, ISink<I> {
     @Override
     public void request() {
         this.source.request();
-    }
-
-    public void pipe(ISink<O> sink) {
-        this.greet(sink);
     }
 
     @Override

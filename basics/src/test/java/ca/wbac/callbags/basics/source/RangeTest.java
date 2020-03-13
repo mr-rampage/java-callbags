@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static ca.wbac.callbags.basics.source.Source.range;
-import static ca.wbac.callbags.basics.util.Utils.pipe;
 import static org.quicktheories.QuickTheory.qt;
 import static org.quicktheories.generators.SourceDSL.integers;
 
@@ -20,10 +19,7 @@ public class RangeTest {
                 .check((lowerBound, count) -> {
                     final var processed = new ArrayList<Integer>();
                     final var expected = IntStream.rangeClosed(lowerBound, lowerBound + count).boxed().collect(Collectors.toList());
-                    pipe(
-                            range(lowerBound, lowerBound + count),
-                            new PullableSink<>(processed)
-                    );
+                    range(lowerBound, lowerBound + count).pipe(new PullableSink<>(processed));
                     return expected.equals(processed);
                 });
     }

@@ -1,13 +1,13 @@
 package ca.wbac.callbags.basics.source;
 
-import ca.wbac.callbags.basics.Callbag;
-import ca.wbac.callbags.basics.ISink;
-import ca.wbac.callbags.basics.ISource;
+import ca.wbac.callbags.core.Callbag;
+import ca.wbac.callbags.core.Sink;
+import ca.wbac.callbags.core.Source;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-final class Interval implements ISource<Integer> {
+final class Interval implements Source<Integer> {
     private final long period;
 
     public Interval(long period) {
@@ -15,7 +15,7 @@ final class Interval implements ISource<Integer> {
     }
 
     @Override
-    public void greet(final ISink<Integer> sink) {
+    public void greet(final Sink<Integer> sink) {
         sink.greet(new Callbag<>() {
             private final Timer timer = new Timer();
             private boolean started = false;

@@ -1,16 +1,16 @@
 package ca.wbac.callbags.basics.helpers;
 
-import ca.wbac.callbags.basics.ISink;
-import ca.wbac.callbags.basics.ISource;
+import ca.wbac.callbags.core.Sink;
+import ca.wbac.callbags.core.Source;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class PushableSink<I> implements ISink<I> {
+public class PushableSink<I> implements Sink<I> {
     private final CompletableFuture<Collection<I>> future;
-    private ISource<I> talkback;
+    private Source<I> talkback;
     private List<I> processed;
     private int receivedMessages = 0;
 
@@ -21,7 +21,7 @@ public class PushableSink<I> implements ISink<I> {
     }
 
     @Override
-    public void greet(ISource<I> talkback) {
+    public void greet(Source<I> talkback) {
         this.talkback = talkback;
         this.talkback.request();
     }

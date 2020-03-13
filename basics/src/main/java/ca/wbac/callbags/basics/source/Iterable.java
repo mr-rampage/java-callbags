@@ -1,14 +1,14 @@
 package ca.wbac.callbags.basics.source;
 
-import ca.wbac.callbags.basics.Callbag;
-import ca.wbac.callbags.basics.ISink;
-import ca.wbac.callbags.basics.ISource;
+import ca.wbac.callbags.core.Callbag;
+import ca.wbac.callbags.core.Sink;
+import ca.wbac.callbags.core.Source;
 
 import java.util.Iterator;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-final class Iterable<T> implements ISource<T> {
+final class Iterable<T> implements Source<T> {
 
     private final java.lang.Iterable<T> iterable;
 
@@ -17,7 +17,7 @@ final class Iterable<T> implements ISource<T> {
     }
 
     @Override
-    public void greet(ISink<T> sink) {
+    public void greet(Sink<T> sink) {
         sink.greet(new Callbag<>() {
             Iterator<T> iterator = iterable.iterator();
 

@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static ca.wbac.callbags.basics.source.Source.interval;
-import static ca.wbac.callbags.basics.util.Utils.pipe;
 import static org.quicktheories.QuickTheory.qt;
 import static org.quicktheories.generators.SourceDSL.integers;
 
@@ -23,10 +22,7 @@ public class IntervalTest {
                 .check(messages -> {
                     final var completableFuture = new CompletableFuture<Collection<Integer>>();
                     final var expected = IntStream.range(0, messages).boxed().collect(Collectors.toList());
-                    pipe(
-                            interval(1),
-                            new PushableSink<>(messages, completableFuture)
-                    );
+                    interval(1).pipe(new PushableSink<>(messages, completableFuture));
                     try {
                         return completableFuture.get().equals(expected);
                     } catch (InterruptedException | ExecutionException e) {

@@ -1,18 +1,18 @@
 package ca.wbac.callbags.basics.helpers;
 
-import ca.wbac.callbags.basics.ISink;
-import ca.wbac.callbags.basics.ISource;
+import ca.wbac.callbags.core.Sink;
+import ca.wbac.callbags.core.Source;
 
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CompletableFuture;
 
-public final class PushableSource<T> implements ISource<T> {
+public final class PushableSource<T> implements Source<T> {
     private final Timer timer = new Timer();
     private final CompletableFuture<Integer> completableFuture;
     private final List<T> list;
-    private ISink<T> sink;
+    private Sink<T> sink;
     private boolean started = false;
 
     public PushableSource(List<T> list, CompletableFuture<Integer> completableFuture) {
@@ -21,7 +21,7 @@ public final class PushableSource<T> implements ISource<T> {
     }
 
     @Override
-    public void greet(ISink<T> sink) {
+    public void greet(Sink<T> sink) {
         this.sink = sink;
         sink.greet(this);
     }

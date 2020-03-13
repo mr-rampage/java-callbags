@@ -1,20 +1,20 @@
 package ca.wbac.callbags.basics.sink;
 
-import ca.wbac.callbags.basics.ISink;
-import ca.wbac.callbags.basics.ISource;
+import ca.wbac.callbags.core.Sink;
+import ca.wbac.callbags.core.Source;
 
 import java.util.function.Consumer;
 
-final class ForEach<I> implements ISink<I> {
+final class ForEach<I> implements Sink<I> {
     private Consumer<I> operation;
-    private ISource<I> talkback;
+    private Source<I> talkback;
 
     ForEach(Consumer<I> operation) {
         this.operation = operation;
     }
 
     @Override
-    public void greet(ISource<I> talkback) {
+    public void greet(Source<I> talkback) {
         this.talkback = talkback;
         this.talkback.request();
     }

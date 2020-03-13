@@ -1,6 +1,6 @@
-package ca.wbac.callbags.basics;
+package ca.wbac.callbags.core;
 
-public interface ICallbag {
+public interface Terminate {
     default void terminate() {
     }
 

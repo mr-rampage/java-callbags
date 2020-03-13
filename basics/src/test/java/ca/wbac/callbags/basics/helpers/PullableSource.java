@@ -1,12 +1,12 @@
 package ca.wbac.callbags.basics.helpers;
 
-import ca.wbac.callbags.basics.Callbag;
-import ca.wbac.callbags.basics.ISink;
-import ca.wbac.callbags.basics.ISource;
+import ca.wbac.callbags.core.Callbag;
+import ca.wbac.callbags.core.Sink;
+import ca.wbac.callbags.core.Source;
 
 import java.util.List;
 
-public final class PullableSource<T> implements ISource<T> {
+public final class PullableSource<T> implements Source<T> {
     private int sent = 0;
     private final List<T> list;
 
@@ -15,7 +15,7 @@ public final class PullableSource<T> implements ISource<T> {
     }
 
     @Override
-    public void greet(ISink<T> sink) {
+    public void greet(Sink<T> sink) {
         sink.greet(new Callbag<>() {
             @Override
             public void request() {

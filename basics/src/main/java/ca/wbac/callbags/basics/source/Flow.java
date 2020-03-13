@@ -1,14 +1,14 @@
 package ca.wbac.callbags.basics.source;
 
-import ca.wbac.callbags.basics.Callbag;
-import ca.wbac.callbags.basics.ISink;
-import ca.wbac.callbags.basics.ISource;
+import ca.wbac.callbags.core.Callbag;
+import ca.wbac.callbags.core.Sink;
+import ca.wbac.callbags.core.Source;
 
 import java.util.concurrent.Flow.Publisher;
 import java.util.concurrent.Flow.Subscriber;
 import java.util.concurrent.Flow.Subscription;
 
-final class Flow<T> implements ISource<T> {
+final class Flow<T> implements Source<T> {
 
     private final Publisher<T> publisher;
 
@@ -17,7 +17,7 @@ final class Flow<T> implements ISource<T> {
     }
 
     @Override
-    public void greet(final ISink<T> sink) {
+    public void greet(final Sink<T> sink) {
         final SinkSubscriber<T> subscriber = new SinkSubscriber<>(sink);
         this.publisher.subscribe(subscriber);
 
@@ -31,9 +31,9 @@ final class Flow<T> implements ISource<T> {
 
     private final static class SinkSubscriber<T> implements Subscriber<T> {
         private Subscription subscription;
-        private ISink<T> sink;
+        private Sink<T> sink;
 
-        SinkSubscriber(final ISink<T> sink) {
+        SinkSubscriber(final Sink<T> sink) {
             this.sink = sink;
         }
 
