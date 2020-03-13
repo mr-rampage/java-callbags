@@ -1,15 +1,16 @@
 package ca.wbac.callbags.basics.operator;
 
+import ca.wbac.callbags.basics.AbstractOperator;
+
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.function.Predicate;
 
 public final class Operator {
-    public static <T> Filter<T> filter(final Predicate<T> predicate) {
-        return new Filter<>(predicate);
+    public static <I> AbstractOperator<I, I> identity() {
+        return new Identity<>();
     }
 
-    public static <I, O> Map<I, O> map(final Function<I, O> transformer) {
+    public static <I, O> AbstractOperator<I, O> map(final Function<I, O> transformer) {
         return new Map<>(transformer);
     }
 

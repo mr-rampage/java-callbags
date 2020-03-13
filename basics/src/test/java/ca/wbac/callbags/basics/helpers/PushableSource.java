@@ -12,6 +12,8 @@ public final class PushableSource<T> implements ISource<T> {
     private final Timer timer = new Timer();
     private final CompletableFuture<Integer> completableFuture;
     private final List<T> list;
+    private ISink<T> sink;
+    private boolean started = false;
 
     public PushableSource(List<T> list, CompletableFuture<Integer> completableFuture) {
         this.completableFuture = completableFuture;
@@ -20,26 +22,28 @@ public final class PushableSource<T> implements ISource<T> {
 
     @Override
     public void greet(ISink<T> sink) {
+        this.sink = sink;
         sink.greet(this);
-
-        timer.scheduleAtFixedRate(new TimerTask() {
-            private int sent = 0;
-
-            @Override
-            public void run() {
-                if (sent == list.size()) {
-                    timer.cancel();
-                    sink.terminate();
-                    completableFuture.complete(sent);
-                } else {
-                    sink.deliver(list.get(sent++));
-                }
-            }
-        }, 0, 10);
     }
 
     @Override
     public void request() {
+        if (!started) {
+            started = true;
+            timer.scheduleAtFixedRate(new TimerTask() {
+                private int sent = 0;
 
+                @Override
+                public void run() {
+                    if (sent == list.size()) {
+                        timer.cancel();
+                        completableFuture.complete(sent);
+                        sink.terminate();
+                    } else {
+                        sink.deliver(list.get(sent++));
+                    }
+                }
+            }, 0, 1);
+        }
     }
 }
