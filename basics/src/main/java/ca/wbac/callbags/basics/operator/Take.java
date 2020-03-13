@@ -1,48 +1,23 @@
 package ca.wbac.callbags.basics.operator;
 
-import ca.wbac.callbags.core.Operator;
-import ca.wbac.callbags.core.SinkTalkback;
-import ca.wbac.callbags.core.Source;
-import ca.wbac.callbags.core.SourceTalkback;
+import ca.wbac.callbags.basics.AbstractOperator;
 
-public final class Take<T> implements Operator<T, T> {
+public final class Take<T> extends AbstractOperator<T, T> {
     private final int max;
+    private int taken = 0;
 
     Take(int max) {
         this.max = max;
     }
 
     @Override
-    public Source<T> apply(Source<T> inputSink) {
-        return outputSink -> inputSink.start(new SinkTalkback<T>() {
-            private int taken = 0;
-            private SourceTalkback source;
-
-            @Override
-            public void start(SourceTalkback sourceTalkback) {
-                source = sourceTalkback;
-                outputSink.start(() -> {
-                    if (taken < max) {
-                        sourceTalkback.request();
-                    }
-                });
-            }
-
-            @Override
-            public void deliver(T data) {
-                if (taken < max) {
-                    taken++;
-                    outputSink.deliver(data);
-                } else {
-                    outputSink.terminate();
-                    source.terminate();
-                }
-            }
-
-            @Override
-            public void terminate() {
-                outputSink.terminate();
-            }
-        });
+    public void deliver(T data) {
+        if (taken < max) {
+            taken++;
+            sink.deliver(data);
+        } else {
+            sink.terminate();
+            source.terminate();
+        }
     }
 }

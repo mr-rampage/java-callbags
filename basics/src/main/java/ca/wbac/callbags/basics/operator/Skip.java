@@ -1,38 +1,22 @@
 package ca.wbac.callbags.basics.operator;
 
-import ca.wbac.callbags.core.Operator;
-import ca.wbac.callbags.core.SinkTalkback;
-import ca.wbac.callbags.core.Source;
-import ca.wbac.callbags.core.SourceTalkback;
+import ca.wbac.callbags.basics.AbstractOperator;
 
-public final class Skip<T> implements Operator<T, T> {
+public final class Skip<T> extends AbstractOperator<T, T> {
     private final int max;
+    private int skipped = 0;
 
     Skip(int max) {
         this.max = max;
     }
 
     @Override
-    public Source<T> apply(Source<T> inputSink) {
-        return outputSink -> inputSink.start(new SinkTalkback<T>() {
-            private int skipped = 0;
-            private SourceTalkback source;
-
-            @Override
-            public void start(SourceTalkback sourceTalkback) {
-                source = sourceTalkback;
-                outputSink.start(sourceTalkback);
-            }
-
-            @Override
-            public void deliver(T data) {
-                if (skipped < max) {
-                    skipped++;
-                    source.request();
-                } else {
-                    outputSink.deliver(data);
-                }
-            }
-        });
+    public void deliver(T data) {
+        if (skipped < max) {
+            skipped++;
+            source.request();
+        } else {
+            sink.deliver(data);
+        }
     }
 }

@@ -1,14 +1,10 @@
 package ca.wbac.callbags.basics.operator;
 
-import ca.wbac.callbags.core.Operator;
-import ca.wbac.callbags.core.SinkTalkback;
-import ca.wbac.callbags.core.Source;
-import ca.wbac.callbags.core.SourceTalkback;
+import ca.wbac.callbags.basics.AbstractOperator;
 
 import java.util.function.Predicate;
 
-public final class Filter<T> implements Operator<T, T> {
-
+final class Filter<T> extends AbstractOperator<T, T> {
     private final Predicate<T> filter;
 
     Filter(Predicate<T> filter) {
@@ -16,19 +12,11 @@ public final class Filter<T> implements Operator<T, T> {
     }
 
     @Override
-    public Source<T> apply(Source<T> inputSink) {
-        return outputSink -> inputSink.start(new SinkTalkback<T>() {
-            @Override
-            public void start(SourceTalkback sourceTalkback) {
-                outputSink.start(sourceTalkback);
-            }
-
-            @Override
-            public void deliver(T data) {
-                if (filter.test(data)) {
-                    outputSink.deliver(data);
-                }
-            }
-        });
+    public void deliver(T data) {
+        if (filter.test(data)) {
+            this.sink.deliver(data);
+        } else {
+            this.source.request();
+        }
     }
 }
