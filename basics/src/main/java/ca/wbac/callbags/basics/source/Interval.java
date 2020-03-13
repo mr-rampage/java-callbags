@@ -16,9 +16,25 @@ final class Interval implements ISource<Integer> {
 
     @Override
     public void greet(final ISink<Integer> sink) {
-        Timer timer = new Timer();
-
         sink.greet(new Callbag<>() {
+            private final Timer timer = new Timer();
+            private boolean started = false;
+
+            @Override
+            public void request() {
+                if (!started) {
+                    started = true;
+                    timer.scheduleAtFixedRate(new TimerTask() {
+                        private int tick = 0;
+
+                        @Override
+                        public void run() {
+                            sink.deliver(tick++);
+                        }
+                    }, 0, period);
+                }
+            }
+
             @Override
             public void terminate() {
                 timer.cancel();
@@ -29,18 +45,5 @@ final class Interval implements ISource<Integer> {
                 timer.cancel();
             }
         });
-
-        timer.scheduleAtFixedRate(new TimerTask() {
-            private int tick = 0;
-
-            @Override
-            public void run() {
-                sink.deliver(tick++);
-            }
-        }, 0, period);
-    }
-
-    @Override
-    public void request() {
     }
 }

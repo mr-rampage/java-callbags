@@ -1,7 +1,13 @@
 package ca.wbac.callbags.basics;
 
-public interface ISource<T> extends ICallbag {
-    void greet(ISink<T> sink);
+public interface ISource<I> extends ICallbag {
+    void greet(ISink<I> sink);
 
-    void request();
+    default void request() {
+    }
+
+    default <O> AbstractOperator<I, O> pipe(AbstractOperator<I, O> operator) {
+        this.greet(operator);
+        return operator;
+    }
 }

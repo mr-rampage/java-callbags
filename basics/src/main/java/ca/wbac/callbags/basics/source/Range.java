@@ -26,8 +26,4 @@ final class Range implements ISource<Integer> {
             }
         });
     }
-
-    @Override
-    public void request() {
-    }
 }

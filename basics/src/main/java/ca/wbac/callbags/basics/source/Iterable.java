@@ -29,8 +29,4 @@ final class Iterable<T> implements ISource<T> {
             }
         });
     }
-
-    @Override
-    public void request() {
-    }
 }

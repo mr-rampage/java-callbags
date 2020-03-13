@@ -29,11 +29,6 @@ final class Flow<T> implements ISource<T> {
         });
     }
 
-    @Override
-    public void request() {
-
-    }
-
     private final static class SinkSubscriber<T> implements Subscriber<T> {
         private Subscription subscription;
         private ISink<T> sink;
